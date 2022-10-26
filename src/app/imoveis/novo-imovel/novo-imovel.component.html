@@ -1,0 +1,70 @@
+<div class="container">
+  <form [formGroup]="formularioImovel" class="row" (submit)="upload()">
+    <div class="col-md-6 text-center">
+      <div class="form-group" *ngIf="!preview; else priviewImage">
+        <button
+        type="button"
+        (click)="fileInput.click()"
+        class="btn btn-primary">
+
+          <i class="fa fa-image fa-4x align-middle"></i>
+          Enviar
+        </button>
+        <input
+          #fileInput
+          type="file"
+          hidden
+          formControlName="file"
+          accept="image/*"
+          (change)="gravaArquivo($event.target)"
+        />
+        <app-mensagem
+          mensagem="Po favor selecione a foto"
+          *ngIf="!!formularioImovel.get('file')?.errors?.['required']"
+        ></app-mensagem>
+      </div>
+      <ng-template #priviewImage>
+        <app-imovel [url]="preview" title="Preview"></app-imovel>
+      </ng-template>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <textarea
+          formControlName="description"
+          class="form-control form-control-sm"
+          placeholder="Descrição do imovel"
+        >
+        </textarea>
+        <app-mensagem
+          mensagem="Tamanho máximo do campo é300 caracteres"
+          *ngIf="!!formularioImovel.get('description')?.errors?.['maxlength']"
+        ></app-mensagem>
+      </div>
+      <div class="form-group">
+        <label class="text-muted">
+          Permite cometário
+          <input type="checkbox" formControlName="allowComments" />
+        </label>
+      </div>
+
+      <div *ngIf="!percentualConcluido; else uploaddiv">
+        <button
+          [disabled]="formularioImovel.invalid"
+          type="submit"
+          class="btn btn-primary btn-block"
+        ></button>
+
+        <a routerLink="['imoveis']" class="btn btn-secondary btn-block"
+          >Cancelar</a
+        >
+      </div>
+
+      <ng-template #uploaddiv>
+        <div class="text-center display-4">
+          Percentual de upload {{ percentualConcluido }} %
+        </div>
+      </ng-template>
+    </div>
+  </form>
+</div>

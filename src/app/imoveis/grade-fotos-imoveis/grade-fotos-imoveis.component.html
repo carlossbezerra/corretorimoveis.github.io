@@ -1,0 +1,22 @@
+<p class="text-center text-muted" *ngIf="!imoveis.length">
+  Desculpe não há imoveis
+</p>
+
+<div class="row">
+  <div *ngFor="let imovel of imoveis" class="col-4">
+    <a [routerLink]="['/imoveis', imovel.id]">
+      <app-cartao>
+        <app-imovel
+          [url]="imovel.url"
+          [descricao]="imovel.description"
+        ></app-imovel>
+        <i aria-hidden="true" class="fa fa-heart-o fa 1x mr-2">{{
+          imovel.likes
+        }}</i>
+        <i aria-hidden="true" class="fa fa-comment-o fa-1x mr-2 ml-2">
+          {{ imovel.comments }}
+        </i>
+      </app-cartao>
+    </a>
+  </div>
+</div>
